@@ -6,6 +6,7 @@
  * @target MZ
  * @plugindesc Implements enemy analysis skill which tells player the enemy's weak points &c.
  * @author MihailJP
+ * @url https://github.com/MihailJP/mihamzplugin/blob/master/EnemyAnalysisSkill.js
  *
  * @param buffColor
  * @text Buff emphasis color
@@ -79,6 +80,7 @@
  * License: The Unlicense
  *
  * Changelog
+ * 16 Sept 2020: Fix syntax error (parentheses mismatch)
  * 14 Sept 2020: First edition.
  *
  * @command analyzeEnemy
@@ -96,6 +98,7 @@
  * @target MZ
  * @plugindesc アナライズスキル（敵の弱点とかがわかる）を実装します。
  * @author MihailJP
+ * @url https://github.com/MihailJP/mihamzplugin/blob/master/EnemyAnalysisSkill.js
  *
  * @param buffColor
  * @text ステータス上昇時の文字色
@@ -169,6 +172,7 @@
  * ライセンス: Unlicense
  *
  * 更新履歴
+ * 令和2年9月16日 文法エラー（括弧が対応していない）を修正
  * 令和2年9月14日 初版
  *
  * @command analyzeEnemy
@@ -188,7 +192,7 @@
 	
     PluginManager.registerCommand(pluginName, "analyzeEnemy", args => {
 		const isJapanese = Boolean($dataSystem.locale.match(/^ja[^[:alpha:]]?/));
-		const enemy = $gameTroop.members()[$gameVariables.value(parseInt(args.enemy_index_var) - 1];
+		const enemy = $gameTroop.members()[$gameVariables.value(parseInt(args.enemy_index_var)) - 1];
 		// ステータスの上昇または低下時に色を付ける
 		const colorBuff = function(enemy, paramId) {
 			if (enemy.isBuffAffected(paramId)) {
