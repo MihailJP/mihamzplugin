@@ -74,12 +74,13 @@
  * Buff/debuff for each parameter can be shown in color.
  *
  * Typical usage:
- * - First, set a variable to "Index of Enemy Character who was just targeted".
- * - Then, "Run analysis skill" with that variable.
+ * - Simply "Run analysis skill". Requires no parameters.
+ *   Target enemy character is automatically detected.
  *
  * License: The Unlicense
  *
  * Changelog
+ * 20 Sept 2020: Fix wrong target (or crash if very first turn)
  * 16 Sept 2020: Fix syntax error (parentheses mismatch)
  * 14 Sept 2020: First edition.
  *
@@ -87,7 +88,20 @@
  * @text Run analysis skill
  * @desc Runs analysis skill. Call from a common event during a battle.
  *
+ * @command analyzeEnemyByIndex
+ * @text Run analysis skill (immediate value)
+ * @desc Runs analysis skill with manually specified target. Usually not needed.
+ *
  * @arg enemy_index
+ * @type int
+ * @text Index of enemy character
+ * @desc Index of enemy character for target of the skill.
+ *
+ * @command analyzeEnemyByVariable
+ * @text Run analysis skill (by variable)
+ * @desc Runs analysis skill with variable-specified target. Usually not needed.
+ *
+ * @arg enemy_index_var
  * @type variable
  * @text Variable for index of enemy character
  * @desc Variable that contains index of enemy character for target of the skill.
@@ -166,12 +180,12 @@
  * ステータスの強化／弱体時に色を付けて表示することもできます。
  *
  * 典型的な使用法：
- * - まず、変数に「直前に対象となった敵キャラのインデックス」を指定します。
- * - 次に、その変数を使って「アナライズを実行」します。
+ * - 「アナライズを実行」します。引数はありません。対象は自動的に認識します。
  *
  * ライセンス: Unlicense
  *
  * 更新履歴
+ * 令和2年9月20日 対象が正しくない（初手で使うと落ちる）のを修正
  * 令和2年9月16日 文法エラー（括弧が対応していない）を修正
  * 令和2年9月14日 初版
  *
@@ -179,7 +193,20 @@
  * @text アナライズを実行
  * @desc アナライズスキルを実行します。戦闘中にコモンイベントから呼び出してください。
  *
+ * @command analyzeEnemyByIndex
+ * @text アナライズを実行（直接指定）
+ * @desc 対象を指定してアナライズスキルを実行します。通常は使用しません。
+ *
  * @arg enemy_index
+ * @type variable
+ * @text 敵インデックス
+ * @desc スキルの対象となる敵インデックスを指定します。
+ *
+ * @command analyzeEnemyByVariable
+ * @text アナライズを実行（変数指定）
+ * @desc 対象を変数で指定してアナライズスキルを実行します。通常は使用しません。
+ *
+ * @arg enemy_index_var
  * @type variable
  * @text 敵インデックス変数
  * @desc スキルの対象となる敵インデックスを格納した変数を指定します。
@@ -189,10 +216,9 @@
 (() => {
     const pluginName = "EnemyAnalysisSkill";
 	const param = PluginManager.parameters(pluginName);
-	
-    PluginManager.registerCommand(pluginName, "analyzeEnemy", args => {
+
+    const analyzeEnemy = function(enemy) {
 		const isJapanese = Boolean($dataSystem.locale.match(/^ja[^[:alpha:]]?/));
-		const enemy = $gameTroop.members()[$gameVariables.value(parseInt(args.enemy_index_var)) - 1];
 		// ステータスの上昇または低下時に色を付ける
 		const colorBuff = function(enemy, paramId) {
 			if (enemy.isBuffAffected(paramId)) {
@@ -240,6 +266,16 @@
 			$gameMessage.add((isJapanese ? "\\C[18]無効：" : "\\C[18]Immune: ")
 				+ enemy.traits(14).map(trait => $dataStates[trait.dataId]).join(" ") );
 		}
+    };
+	
+    PluginManager.registerCommand(pluginName, "analyzeEnemy", args => {
+		analyzeEnemy($gameTroop.members()[$gameTemp.lastActionData(5) - 1]);
+    });
+    PluginManager.registerCommand(pluginName, "analyzeEnemyByIndex", args => {
+		analyzeEnemy($gameTroop.members()[parseInt(args.enemy_index)]);
+    });
+    PluginManager.registerCommand(pluginName, "analyzeEnemyByVariable", args => {
+		analyzeEnemy($gameTroop.members()[$gameVariables.value(parseInt(args.enemy_index_var)) - 1]);
     });
 
 })();
