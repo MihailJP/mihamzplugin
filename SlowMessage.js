@@ -6,6 +6,7 @@
  * @target MZ
  * @plugindesc Slows down message speed.
  * @author MihailJP
+ * @url https://github.com/MihailJP/mihamzplugin/blob/master/SlowMessage.js
  *
  * @help SlowMessage.js
  *
@@ -14,20 +15,28 @@
  *
  * Set wait with the plugin command `setMessageWait`.
  *
+ * License: The Unlicense
+ *
+ * Changelog
+ * 21 Sept 2020: Fix parameter type
+ * 10 Sept 2020: First edition.
+ *
  * @command setMessageWait
  * @text Set message wait
  * @desc Set wait for each letter [in frames].
  *
  * @arg wait
- * @type int
+ * @type number
  * @text Wait
  * @desc Each time a letter displayed, waits by the time specified here.
+ * @min 0
  */
 
 /*:ja
  * @target MZ
  * @plugindesc メッセージの表示をゆっくりにする
  * @author MihailJP
+ * @url https://github.com/MihailJP/mihamzplugin/blob/master/SlowMessage.js
  *
  * @help SlowMessage.js
  *
@@ -36,14 +45,21 @@
  *
  * プラグインコマンド setMessageWait を使用してウェイトを設定します。
  *
+ * ライセンス: Unlicense
+ *
+ * 更新履歴
+ * 令和2年9月21日 パラメータの型を修正
+ * 令和2年9月10日 初版
+ *
  * @command setMessageWait
  * @text メッセージのウェイト設定
  * @desc 文字表示ごとのウェイトをフレーム単位で設定します。
  *
  * @arg wait
- * @type int
+ * @type number
  * @text ウェイト
  * @desc 1文字表示するごとにここで指定した長さのウェイトを入れます。
+ * @min 0
  */
 
 (() => {
