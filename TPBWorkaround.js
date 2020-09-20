@@ -2,7 +2,7 @@
 // RPG Maker MZ - Scene_Battle.onEnemyOk()等で落ちる問題に対処
 //=============================================================================
 
-/*:en
+/*:
  * @target MZ
  * @plugindesc Workaround that fixes crash at Scene_Battle.onEnemyOk() etc. when TPB
  * @author MihailJP
