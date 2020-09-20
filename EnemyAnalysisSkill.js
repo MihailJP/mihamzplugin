@@ -2,7 +2,7 @@
 // RPG Maker MZ - アナライズスキル用補助プラグイン
 //=============================================================================
 
-/*:en
+/*:
  * @target MZ
  * @plugindesc Implements enemy analysis skill which tells player the enemy's weak points &c.
  * @author MihailJP
@@ -12,13 +12,17 @@
  * @text Buff emphasis color
  * @desc Set text color number [0 to 31] for parameters with buff.
  * @default 6
- * @type int
+ * @type number
+ * @min 0
+ * @max 31
  *
  * @param debuffColor
  * @text Debuff emphasis color
  * @desc Set text color number [0 to 31] for parameters with debuff.
  * @default 4
- * @type int
+ * @type number
+ * @min 0
+ * @max 31
  *
  * @param labelHp
  * @text HP
@@ -80,6 +84,7 @@
  * License: The Unlicense
  *
  * Changelog
+ * 21 Sept 2020: Fix parameter type
  * 20 Sept 2020: Fix wrong target (or crash if very first turn)
  * 16 Sept 2020: Fix syntax error (parentheses mismatch)
  * 14 Sept 2020: First edition.
@@ -93,9 +98,11 @@
  * @desc Runs analysis skill with manually specified target. Usually not needed.
  *
  * @arg enemy_index
- * @type int
+ * @type number
  * @text Index of enemy character
  * @desc Index of enemy character for target of the skill.
+ * @min 1
+ * @max 8
  *
  * @command analyzeEnemyByVariable
  * @text Run analysis skill (by variable)
@@ -118,13 +125,17 @@
  * @text ステータス上昇時の文字色
  * @desc ステータス上昇時の文字色を0～31で設定します。
  * @default 6
- * @type int
+ * @type number
+ * @min 0
+ * @max 31
  *
  * @param debuffColor
  * @text ステータス低下時の文字色
  * @desc ステータス低下時の文字色を0～31で設定します。
  * @default 4
- * @type int
+ * @type number
+ * @min 0
+ * @max 31
  *
  * @param labelHp
  * @text ＨＰ
@@ -185,6 +196,7 @@
  * ライセンス: Unlicense
  *
  * 更新履歴
+ * 令和2年9月21日 パラメータの型を修正
  * 令和2年9月20日 対象が正しくない（初手で使うと落ちる）のを修正
  * 令和2年9月16日 文法エラー（括弧が対応していない）を修正
  * 令和2年9月14日 初版
@@ -198,9 +210,11 @@
  * @desc 対象を指定してアナライズスキルを実行します。通常は使用しません。
  *
  * @arg enemy_index
- * @type variable
+ * @type number
  * @text 敵インデックス
  * @desc スキルの対象となる敵インデックスを指定します。
+ * @min 1
+ * @max 8
  *
  * @command analyzeEnemyByVariable
  * @text アナライズを実行（変数指定）
