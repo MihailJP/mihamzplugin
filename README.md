@@ -9,6 +9,7 @@ MihailJP's Plugins for RPG Maker MZ
 - [SlowMessage](SlowMessage.js) — Slows down message speed.
 - [SpeakInBattle](SpeakInBattle.js) — Displays dialogue in battle.
   - Depends on `PluginCommonBase` and `ExtraWindow`
+- [TimerText](TimerText.js) — Change timer display.
 - [TPBWorkaround](TPBWorkaround.js) — Workaround that fixes crash at `Scene_Battle.onEnemyOk()` etc. when TPB.
 - [ZombieActor](ZombieActor.js) — Zombification of dead actors
 
