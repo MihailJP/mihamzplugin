@@ -5,6 +5,7 @@ MihailJP's Plugins for RPG Maker MZ
 - [AltSkillByTarget](AltSkillByTarget.js) — Alternative skill for specific targets.
 - [EnemyAnalysisSkill](EnemyAnalysisSkill.js) — Implements enemy analysis skill which tells player the enemy's weak points &c.
 - [EnemySpecialActionSwitch](EnemySpecialActionSwitch.js) — Switches to let enemy characters do a specific action.
+- [ItemTargetInMessage](ItemTargetInMessage.js) — Include the target of item or skill in the message.
 - [SlowMessage](SlowMessage.js) — Slows down message speed.
 - [SpeakInBattle](SpeakInBattle.js) — Displays dialogue in battle.
   - Depends on `PluginCommonBase` and `ExtraWindow`
