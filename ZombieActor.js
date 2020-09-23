@@ -23,15 +23,16 @@
  *
  * It does not provide plugin commands.
  *
+ * License: The Unlicense
+ *
  * Changelog
+ * 23 Sept 2020: Set parameter type
  * 22 Sept 2020: First edition
  *
  * @param alternativeDeathState
  * @text Alternative state number for death
  * @desc The state which will be added to dead (i.e. "zombified") actor instead of #1.
- * @default 1
- * @type number
- * @min 1
+ * @type state
  *
  */
 
@@ -55,15 +56,16 @@
  *
  * プラグインコマンドはありません。
  *
+ * ライセンス: Unlicense
+ *
  * 更新履歴
+ * 令和2年9月23日 パラメータの型を設定
  * 令和2年9月22日 初版
  *
  * @param alternativeDeathState
  * @text 死亡時ステート番号
  * @desc 戦闘不能になったアクターに、ステート番号1番の代わりに付与するステートを指定します。
- * @default 1
- * @type number
- * @min 1
+ * @type state
  *
  */
  
