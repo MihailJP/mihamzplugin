@@ -15,6 +15,7 @@
  * It does not provide plugin commands.
  *
  * Changelog
+ * 25 Sept 2020: Boolean options were not applied.
  * 23 Sept 2020: First edition.
  *
  * @param bitmapWidth
@@ -58,6 +59,7 @@
  * プラグインコマンドはありません。
  *
  * 更新履歴
+ * 令和2年9月25日 booleanオプションが反映されていないのを修正
  * 令和2年9月23日 初版
  *
  * @param bitmapWidth
@@ -106,13 +108,13 @@
 		const text = this.timerText();
 		//const width = this.bitmap.width;
 		// ↓ Added by MihailJP
-		const width = this.bitmap.width / (param.forceFixedPitch ? text.length : 1);
+		const width = this.bitmap.width / (JSON.parse(param.forceFixedPitch) ? text.length : 1);
 		// ↑ Added by MihailJP
 		const height = this.bitmap.height;
 		this.text = text;
 		this.bitmap.clear();
 		// ↓ Added by MihailJP
-		if (param.forceFixedPitch) {
+		if (JSON.parse(param.forceFixedPitch)) {
 			for (let i = 0; i < text.length; ++i) {
 				this.bitmap.drawText(text.substr(i, 1), width * i, 0, width, height, "center");
 			}
@@ -135,7 +137,7 @@
 	const orig_Sprite_Timer_timerText = Sprite_Timer.prototype.timerText;
 	Sprite_Timer.prototype.timerText = function() {
 		return orig_Sprite_Timer_timerText.call(this).replace(/:/,
-			((!param.blinkColon) || ($gameTimer._frames < 1) || ($gameTimer._frames % 60 >= 30))
+			((!JSON.parse(param.blinkColon)) || ($gameTimer._frames < 1) || ($gameTimer._frames % 60 >= 30))
 			? ":" : " ");
 	};
 
