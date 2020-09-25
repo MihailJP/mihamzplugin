@@ -11,6 +11,7 @@ MihailJP's Plugins for RPG Maker MZ
 - [SpeakInBattle](SpeakInBattle.js) — Displays dialogue in battle.
   - Depends on `PluginCommonBase` and `ExtraWindow`
 - [TimerText](TimerText.js) — Change timer display.
+- [TPBCastTime](TPBCastTime.js) — Implement wait TPB cast time.
 - [TPBWorkaround](TPBWorkaround.js) — Workaround that fixes crash at `Scene_Battle.onEnemyOk()` etc. when TPB.
 - [ZombieActor](ZombieActor.js) — Zombification of dead actors
 
