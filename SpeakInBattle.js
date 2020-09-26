@@ -8,6 +8,7 @@
  * @author MihailJP
  * @base PluginCommonBase
  * @base ExtraWindow
+ * @orderBefore TPBCastTime
  * @url https://github.com/MihailJP/mihamzplugin/blob/master/SpeakInBattle.js
  *
  * @param duration
@@ -41,7 +42,13 @@
  * On `ExtraWindow` configuration, requires 8 windows whose `SceneName` is
  * "Scene_Battle" and `SwitchId` is sequential.
  * `x`, `y` and `width` are ignored since position and width are auto-adjusted.
-
+ *
+ * License: The Unlicense
+ * https://github.com/MihailJP/mihamzplugin/blob/master/LICENSE.txt * Changelog
+ *
+ * 26 Sept 2020: Improve compatibility with TPBCastTime.
+ * 21 Sept 2020: First edition.
+ *
  * @command speakPredefined
  * @text Display predefined message
  * @desc Display predefined message.
@@ -64,6 +71,7 @@
  * @author MihailJP
  * @base PluginCommonBase
  * @base ExtraWindow
+ * @orderBefore TPBCastTime
  * @url https://github.com/MihailJP/mihamzplugin/blob/master/SpeakInBattle.js
  *
  * @param duration
@@ -97,6 +105,13 @@
  * ExtraWindow側で、SceneName を "Scene_Battle"、SwitchId を連番にした
  * 8つのウィンドウを用意しておく必要があります。
  * x、y、width の設定は無視されます。位置とウィンドウ幅は自動調整されます。
+ *
+ * ライセンス: Unlicense
+ * https://github.com/MihailJP/mihamzplugin/blob/master/LICENSE.txt
+ *
+ * 更新履歴
+ * 令和2年9月26日 TPBCastTimeとの互換性を改良
+ * 令和2年9月21日 初版
  *
  * @command speakPredefined
  * @text 定型メッセージを表示
@@ -216,7 +231,10 @@
 	};
 	const orig_Game_Battler_useItem = Game_Battler.prototype.useItem;
 	Game_Battler.prototype.useItem = function(item) {
-		if (this.isEnemy()) { // 敵の行動に限る
+		if ((!PluginManager._scripts.includes("TPBCastTime")
+			|| (this._tpbState != "casting")) // キャスト時に2回表示されるのを防止
+			&& this.isEnemy() // 敵の行動に限る
+		) {
 			try {
 				DataManager.extractMetadata(item);
 				const msgList = item.meta.enemySpeaks.split(',');
