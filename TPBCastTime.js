@@ -16,6 +16,8 @@
  * It does not provide plugin commands.
  *
  * Changelog
+ * 26 Sept 2020: Fixed issue forced action causes being stuck.
+ *               Avoid cost duplicate.
  * 25 Sept 2020: First edition.
  *
  * @param flashWhenCastStarts
@@ -97,6 +99,8 @@
  * プラグインコマンドはありません。
  *
  * 更新履歴
+ * 令和2年9月26日 戦闘行動の強制で止まる問題を修正
+ *                コストの2度払いを抑止
  * 令和2年9月25日 初版
  *
  * @param flashWhenCastStarts
@@ -180,6 +184,12 @@
 	Game_Action.prototype.clear = function() {
 		orig_Game_Action_clear.call(this);
 		this._deferredTarget = null;
+		this._costPaid = false;
+	};
+
+	const orig_Game_Action_isValid = Game_Action.prototype.isValid;
+	Game_Action.prototype.isValid = function() {
+		return this._costPaid || orig_Game_Action_isValid.call(this);
 	};
 
 	const orig_Game_ActionResult_clear = Game_ActionResult.prototype.clear;
@@ -190,7 +200,10 @@
 
 	const orig_Game_Battler_useItem = Game_Battler.prototype.useItem;
 	Game_Battler.prototype.useItem = function(item) {
-		if (this._tpbState === "acting") {
+		if (this.currentAction()._forcing) {
+			orig_Game_Battler_useItem.call(this, item);
+			this._actions[0]._costPaid = true;
+		} else if (this._tpbState === "acting") {
 			if (BattleManager._action._deferredTarget) {
 				BattleManager._targets = BattleManager._action._deferredTarget;
 			} else if (BattleManager._action._targetIndex >= 0) {
@@ -199,6 +212,20 @@
 				} else {
 					BattleManager._targets = [this.opponentsUnit().members()[BattleManager._action._targetIndex]];
 				}
+			}
+			if (this._actions[0]._costPaid) {
+				// to avoid cost duplicate...
+				const mp = this._mp;
+				const tp = this._tp;
+				if (DataManager.isItem(item) && item.consumable) {
+					$gameParty.gainItem(item, 1); // regain pre-consumed item
+				}
+				orig_Game_Battler_useItem.call(this, item);
+				this._mp = mp;
+				this._tp = tp;
+			} else {
+				orig_Game_Battler_useItem.call(this, item);
+				this._actions[0]._costPaid = true;
 			}
 		} else {
 			if (JSON.parse(param.flashWhenCastStarts)) {
@@ -210,6 +237,7 @@
 				}
 			}
 			orig_Game_Battler_useItem.call(this, item);
+			this._actions[0]._costPaid = true;
 			this._actions[0]._deferredTarget = BattleManager._targets;
 			this._actions.unshift(this._actions[0]);
 			BattleManager._phase = "turn";
@@ -227,7 +255,7 @@
 	};
 
 	Game_BattlerBase.prototype.cancelTpbAction = function() {
-		this._actionState = "undecided";
+		this._actionState = "done";
 		this._tpbState = "charging";
 		this._tpbTurnEnd = false;
 		this._actions = [];
@@ -265,21 +293,32 @@
 
 	const orig_BattleManager_processTurn = BattleManager.processTurn;
 	BattleManager.processTurn = function() {
-		if (this._actionBattlers.length) {
+		if (this._subject.currentAction() && this._subject.currentAction()._forcing) {
+			const nosOfActions = this._subject._actions.length;
+			orig_BattleManager_processTurn.call(this);
+			if (nosOfActions <= this._subject._actions.length) {
+				this._subject.removeCurrentAction();
+			}
+		} else {
+			if (this._actionBattlers.length) {
+				if (this._subject) {
+					this._actionBattlers.push(this._subject);
+				}
+				this._subject = this.getNextSubject();
+			}
 			if (this._subject) {
-				this._actionBattlers.push(this._subject);
+				if ((this._subject._tpbState !== "casting")
+					|| (this._subject._actions.length == 0)
+					|| (this._subject._actions[0]._deferredTarget === null)
+				) {
+					orig_BattleManager_processTurn.call(this);
+				}
 			}
-			this._subject = this.getNextSubject();
-		}
-		if (this._subject) {
-			if ((this._subject._tpbState !== "casting") || (this._subject._actions.length == 0) || (this._subject._actions[0]._deferredTarget === null)) {
-				orig_BattleManager_processTurn.call(this);
-			}
-		}
-		if (this._subject) {
-			if (this._subject._tpbState === "casting") {
-				this._actionBattlers.push(this._subject);
-				this._subject = null;
+			if (this._subject) {
+				if (this._subject._tpbState === "casting") {
+					this._actionBattlers.push(this._subject);
+					this._subject = null;
+				}
 			}
 		}
 	};
