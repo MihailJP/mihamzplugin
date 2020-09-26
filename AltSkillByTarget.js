@@ -23,6 +23,7 @@
  * It does not provide plugin commands.
  *
  * Changelog
+ * 26 Sept 2020: Fixed crash issue with out-of-battle skills.
  * 22 Sept 2020: First edition
  */
 
@@ -47,6 +48,7 @@
  * プラグインコマンドはありません。
  *
  * 更新履歴
+ * 令和2年9月26日 戦闘外でスキルを使うと落ちる問題を修正
  * 令和2年9月22日 初版
  */
  
@@ -56,7 +58,7 @@
 
 	const orig_Game_Battler_useItem = Game_Battler.prototype.useItem;
 	Game_Battler.prototype.useItem = function(item) {
-		if (BattleManager._targets.length == 1) {
+		if (($gameParty._inBattle) && (BattleManager._targets.length == 1)) {
 			const target = BattleManager._targets[0];
 			const targetData = target.isActor() ? $dataActors[target._actorId] : $dataEnemies[target._enemyId];
 			const altSkillType = parseInt(targetData.meta.altSkill);

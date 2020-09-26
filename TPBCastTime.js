@@ -16,6 +16,7 @@
  * It does not provide plugin commands.
  *
  * Changelog
+ * 26 Sept 2020: Fixed crash issue with out-of-battle skills.
  * 26 Sept 2020: Fixed issue forced action causes being stuck.
  *               Avoid cost duplicate.
  * 25 Sept 2020: First edition.
@@ -99,6 +100,7 @@
  * プラグインコマンドはありません。
  *
  * 更新履歴
+ * 令和2年9月26日 戦闘外でスキルを使うと落ちる問題を修正
  * 令和2年9月26日 戦闘行動の強制で止まる問題を修正
  *                コストの2度払いを抑止
  * 令和2年9月25日 初版
@@ -200,7 +202,9 @@
 
 	const orig_Game_Battler_useItem = Game_Battler.prototype.useItem;
 	Game_Battler.prototype.useItem = function(item) {
-		if (this.currentAction()._forcing) {
+		if ((!$gameParty._inBattle) || (!BattleManager.isTpb())) {
+			orig_Game_Battler_useItem.call(this, item);
+		} else if (this.currentAction()._forcing) {
 			orig_Game_Battler_useItem.call(this, item);
 			this._actions[0]._costPaid = true;
 		} else if (this._tpbState === "acting") {
@@ -293,7 +297,9 @@
 
 	const orig_BattleManager_processTurn = BattleManager.processTurn;
 	BattleManager.processTurn = function() {
-		if (this._subject.currentAction() && this._subject.currentAction()._forcing) {
+		if (!this.isTpb()) {
+			orig_BattleManager_processTurn.call(this);
+		} else if (this._subject.currentAction() && this._subject.currentAction()._forcing) {
 			const nosOfActions = this._subject._actions.length;
 			orig_BattleManager_processTurn.call(this);
 			if (nosOfActions <= this._subject._actions.length) {
