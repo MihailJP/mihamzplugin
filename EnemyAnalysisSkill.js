@@ -84,6 +84,8 @@
  * License: The Unlicense
  *
  * Changelog
+ * 1 Oct 2020: Fix issue that state susceptibility is shown as [Object object]
+ *             Insert a comma between items.
  * 21 Sept 2020: Fix parameter type
  * 20 Sept 2020: Fix wrong target (or crash if very first turn)
  * 16 Sept 2020: Fix syntax error (parentheses mismatch)
@@ -196,6 +198,8 @@
  * ライセンス: Unlicense
  *
  * 更新履歴
+ * 令和2年10月1日 ステート有効度の表示が[Object object]になるのを修正
+ *                英語版でコンマを入れるようにする
  * 令和2年9月21日 パラメータの型を修正
  * 令和2年9月20日 対象が正しくない（初手で使うと落ちる）のを修正
  * 令和2年9月16日 文法エラー（括弧が対応していない）を修正
@@ -263,22 +267,22 @@
 			+ "\\C[0] " + (param.labelLuk || $dataSystem.terms.params[7]) + ":" + colorBuff(enemy, 7) + enemy.luk.toString());
 		// 弱点・耐性
 		$gameMessage.add((isJapanese ? "\\C[0]弱点：" : "\\C[0]Weak: ")
-			+ (enemy.traits(11).filter(trait => trait.value > 1).map(trait => $dataSystem.elements[trait.dataId]).join(" ") || (isJapanese ? "なし" : "None")));
+			+ (enemy.traits(11).filter(trait => trait.value > 1).map(trait => $dataSystem.elements[trait.dataId]).join(isJapanese ? " " : ", ") || (isJapanese ? "なし" : "None")));
 		$gameMessage.add((isJapanese ? "\\C[0]耐性：" : "\\C[0]Resists: ")
-			+ (enemy.traits(11).filter(trait => trait.value < 1).map(trait => $dataSystem.elements[trait.dataId]).join(" ") || (isJapanese ? "なし" : "None")));
+			+ (enemy.traits(11).filter(trait => trait.value < 1).map(trait => $dataSystem.elements[trait.dataId]).join(isJapanese ? " " : ", ") || (isJapanese ? "なし" : "None")));
 		// ステート耐性等
 		$gameMessage.add(isJapanese ? "ステート耐性・有効ステート" : "State Susceptibility");
 		$gameMessage.add((isJapanese ? "\\C[0]有効：" : "\\C[0]Susceptible: ")
-			+ (enemy.traits(13).filter(trait => trait.value > 1).map(trait => $dataStates[trait.dataId]).concat(
+			+ (enemy.traits(13).filter(trait => trait.value > 1).map(trait => $dataStates[trait.dataId].name).concat(
 			enemy.traits(12).filter(trait => trait.value > 1).map(trait => $dataSystem.terms.params[trait.dataId] + (isJapanese ? "低下" : " debuff"))
-			).join(" ") || (isJapanese ? "なし" : "None")));
+			).join(isJapanese ? " " : ", ") || (isJapanese ? "なし" : "None")));
 		$gameMessage.add((isJapanese ? "\\C[0]耐性：" : "\\C[0]Resists: ")
-			+ (enemy.traits(13).filter(trait => trait.value < 1).map(trait => $dataStates[trait.dataId]).concat(
+			+ (enemy.traits(13).filter(trait => trait.value < 1).map(trait => $dataStates[trait.dataId].name).concat(
 			enemy.traits(12).filter(trait => trait.value < 1).map(trait => $dataSystem.terms.params[trait.dataId] + (isJapanese ? "低下" : " debuff"))
-			).join(" ") || (isJapanese ? "なし" : "None")));
+			).join(isJapanese ? " " : ", ") || (isJapanese ? "なし" : "None")));
 		if (enemy.traits(14).length > 0) {
 			$gameMessage.add((isJapanese ? "\\C[18]無効：" : "\\C[18]Immune: ")
-				+ enemy.traits(14).map(trait => $dataStates[trait.dataId]).join(" ") );
+				+ enemy.traits(14).map(trait => $dataStates[trait.dataId].name).join(" ") );
 		}
     };
 	
