@@ -6,6 +6,9 @@ MihailJP's Plugins for RPG Maker MZ
 - [CommonEventBeforeCast](CommonEventBeforeCast.js) — Run a common event just before skill/item cast time.
 - [EnemyAnalysisSkill](EnemyAnalysisSkill.js) — Implements enemy analysis skill which tells player the enemy's weak points &c.
 - [EnemySpecialActionSwitch](EnemySpecialActionSwitch.js) — Switches to let enemy characters do a specific action.
+- [ExtendedNameInput](ExtendedNameInput.js) — Extension for name input window.
+  - Works under Japanese, Korean or Chinese environment
+  - Nothing to do in English version
 - [ItemTargetInMessage](ItemTargetInMessage.js) — Include the target of item or skill in the message.
 - [SlowMessage](SlowMessage.js) — Slows down message speed.
 - [SpeakInBattle](SpeakInBattle.js) — Displays dialogue in battle.
