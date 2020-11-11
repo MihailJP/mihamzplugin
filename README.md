@@ -15,6 +15,8 @@ MihailJP's Plugins for RPG Maker MZ
   - Depends on `PluginCommonBase` and `ExtraWindow`
 - [TimerText](TimerText.js) — Change timer display.
 - [TPBCastTime](TPBCastTime.js) — Implement wait TPB cast time.
+- [TPBSuppressChargeTimeReset](TPBSuppressChargeTimeReset.js) — Do not reset TPB charge time between turns.
+  - This may affect game balance, especially with the active TPB system.
 - [TPBWorkaround](TPBWorkaround.js) — Workaround that fixes crash at `Scene_Battle.onEnemyOk()` etc. when TPB.
   - This issue seems fixed as of core script version 1.1.0.
   - No longer required if vanilla; however, may be still useful if with plugins modding TPB system.
