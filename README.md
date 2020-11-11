@@ -16,6 +16,8 @@ MihailJP's Plugins for RPG Maker MZ
 - [TimerText](TimerText.js) — Change timer display.
 - [TPBCastTime](TPBCastTime.js) — Implement wait TPB cast time.
 - [TPBWorkaround](TPBWorkaround.js) — Workaround that fixes crash at `Scene_Battle.onEnemyOk()` etc. when TPB.
+  - This issue seems fixed as of core script version 1.1.0.
+  - No longer required if vanilla; however, may be still useful if with plugins modding TPB system.
 - [ZombieActor](ZombieActor.js) — Zombification of dead actors
 
 ## License ##
