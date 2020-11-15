@@ -4,6 +4,7 @@ MihailJP's Plugins for RPG Maker MZ
 ## Table of Contents ##
 - [AltSkillByTarget](AltSkillByTarget.js) — Alternative skill for specific targets.
 - [CommonEventBeforeCast](CommonEventBeforeCast.js) — Run a common event just before skill/item cast time.
+- [CutinMZ](CutinMZ.js) — Implement cut-in picture for skills
 - [EnemyAnalysisSkill](EnemyAnalysisSkill.js) — Implements enemy analysis skill which tells player the enemy's weak points &c.
 - [EnemySpecialActionSwitch](EnemySpecialActionSwitch.js) — Switches to let enemy characters do a specific action.
 - [ExtendedNameInput](ExtendedNameInput.js) — Extension for name input window.
