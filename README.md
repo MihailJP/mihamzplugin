@@ -10,6 +10,7 @@ MihailJP's Plugins for RPG Maker MZ
 - [ExtendedNameInput](ExtendedNameInput.js) — Extension for name input window.
   - Works under Japanese, Korean or Chinese environment
   - Nothing to do in English version
+- [FixFormation](FixFormation.js) — Prevents some actors' formation from being changed
 - [ItemTargetInMessage](ItemTargetInMessage.js) — Include the target of item or skill in the message.
 - [SlowMessage](SlowMessage.js) — Slows down message speed.
 - [SpeakInBattle](SpeakInBattle.js) — Displays dialogue in battle.
