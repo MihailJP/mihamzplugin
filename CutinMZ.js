@@ -18,6 +18,7 @@
  *
  * Changelog
  * 15 Nov 2020: First edition.
+ * 18 Jul 2021: Fix crash issue caused by certain setting
  *
  * @param cutInList
  * @text Cut-in list
@@ -130,6 +131,7 @@
  *
  * 更新履歴
  * 令和2年11月15日 初版
+ * 令和3年7月18日 設定によって落ちるバグを修正
  *
  * @param cutInList
  * @text カットインリスト
@@ -299,7 +301,7 @@
 		};
 		const sprite = SceneManager._scene._cutInImage;
 		const cutIn = cutInList.filter(ci => findBattler(this, ci)).filter(ci => findItem(item, ci))[0];
-		if (cutIn) {
+		if (cutIn && sprite) {
 			sprite.bitmap = ImageManager.loadPicture(cutIn.file);
 			sprite.baseScaleX = cutIn.scaleX / 100;
 			sprite.baseScaleY = cutIn.scaleY / 100;
